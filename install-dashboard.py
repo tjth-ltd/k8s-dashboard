@@ -27,7 +27,7 @@ def createFromYaml(yamlFile):
     print("\nDeploying: "+yamlFile)
     subprocess.call(["kubectl","apply","-f",yamlFile])
     print("\nDeployed..")
-#createFromYaml(dashYaml)
+createFromYaml(dashYaml)
 
 ## Get Dashbaord Token
 def getToken():

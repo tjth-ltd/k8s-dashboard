@@ -27,7 +27,7 @@ def createFromYaml(yamlFile):
     print("\nDeploying: "+yamlFile)
     subprocess.call(["kubectl","apply","-f",yamlFile])
     print("\nDeployed..")
-createFromYaml(dashYaml)
+#createFromYaml(dashYaml)
 
 ## Get Dashbaord Token
 def getToken():
@@ -37,6 +37,15 @@ def getToken():
     tokenName= getToken.communicate()[0]
     return tokenName.rstrip()
 token = getToken()
+
+## Get Dashboard Service Port
+def getDashPort():
+    print("\nGetting Dashboard ServicePort")
+    getPortCmd="kubectl get svc -n kube-system | grep 'dash' | awk {'print $5'} | grep -o -P '(?<=:).*(?=/)'"
+    getPort= subprocess.Popen(getPortCmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+    svcPort= getPort.communicate()[0]
+    return svcPort
+masterPort = getDashPort()
 
 ## Set Dashboard user as Admin
 def makeAdmin():
@@ -54,6 +63,8 @@ def updateNginxConf():
         print line.replace("CHANGETOKEN",token),
     for line in fileinput.input(nginxConf,inplace=True):
         print line.replace("CHANGEIP",masterIp),
+    for line in fileinput.input(nginxConf,inplace=True):
+        print line.replace("CHANGEPORT",masterPort),
 updateNginxConf()
 
 print("##### Task Complete! #####")

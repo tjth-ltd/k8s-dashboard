@@ -4,7 +4,7 @@ Installation script for a Kubernetes Dashboard on a local cluster (The installat
 
 *NOTE: This setup should not be used in production, it allows unauthenticated full admin access to your Kubernetes Dashboard and is for Demo purposes only*
 
-## Nginx Dashboard with Basic Auth
+## Nginx Dashboard Setup
 
 To complete the Dashboard installation, run the installation script from this repository. This script will communicate with your Kubernetes cluster to generate the required pods and services, before updating the docker-compose file with your user Token for the Kubernetes Dashboard
 
